@@ -4,7 +4,8 @@ import SearchBar from './components/SearchBar'
 import GifContainer from './components/GifContainer'
 //Endpoints
 import { SEARCH_ENDPOINT, TRENDING_ENDPOINT, RANDOM_ENDPOINT } from './endpoints'
-
+//React router
+import { Route, withRouter } from 'react-router-dom'
 
 class App extends Component{
   constructor(props){
@@ -12,7 +13,7 @@ class App extends Component{
     this.state = {
       searchQuery: '',
       arrayOfGifs : [],
-      loading: false
+      query: ''
     }
   }
 
@@ -23,9 +24,10 @@ class App extends Component{
       this.setState({
         searchQuery: '',
         arrayOfGifs: json.data,
+        query,
       })
     })
-
+    this.props.history.push('/search/' + query);
   }
 
   fetchRandomGifs = () => {
@@ -35,6 +37,7 @@ class App extends Component{
       this.setState({
         searchQuery: '',
         arrayOfGifs: [json.data],
+        query: 'random'
       })
     })
   }
@@ -46,6 +49,7 @@ class App extends Component{
       this.setState({
         searchQuery: '',
         arrayOfGifs: json.data,
+        query: 'trending'
       })
     })
   }
@@ -70,12 +74,14 @@ class App extends Component{
           searchQuery={this.state.searchQuery}
           fetchRandomGifs={this.fetchRandomGifs}
           fetchTrendingGifs={this.fetchTrendingGifs}/>
+      <Route path='/'>
         <GifContainer
           arrayOfGifs={this.state.arrayOfGifs}/>
+      </Route>
       </Fragment>
     );
   }
 
 }
 
-export default App;
+export default withRouter(App);

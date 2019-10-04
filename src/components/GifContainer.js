@@ -5,7 +5,11 @@ import Gif from './Gif'
 
 const GifContainer = props => {
   const arrayOfGifs = props.arrayOfGifs.map((element)=> {
-    return(<Gif id= {element.id} key={element.id} alt={element.title} src={element.images.original.url}/>)
+    return(<Gif
+      id= {element.id}
+      key={element.id}
+      alt={element.title}
+      src={element.images.original.url}/>)
   })
   return (
     <Box
@@ -13,7 +17,7 @@ const GifContainer = props => {
         flexDirection="row"
         flexWrap="wrap"
         justifyContent="center">
-      {arrayOfGifs}
+        {arrayOfGifs}
     </Box>
   )
 }

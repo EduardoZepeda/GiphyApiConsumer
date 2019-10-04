@@ -4,7 +4,8 @@ class Gif extends Component {
   constructor(props){
     super(props)
     this.state = {
-      loading: true
+      loading: true,
+      error: '',
     }
   }
 
@@ -20,7 +21,6 @@ class Gif extends Component {
              src={this.props.src}
              onLoad={this.handleLoad}
              alt={this.props.alt}/>
-           {this.state.loading}
          </Fragment>
       )
     }
