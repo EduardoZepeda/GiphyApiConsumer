@@ -1,26 +1,81 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from 'react';
+//Components
+import SearchBar from './components/SearchBar'
+import GifContainer from './components/GifContainer'
+//Endpoints
+import { SEARCH_ENDPOINT, TRENDING_ENDPOINT, RANDOM_ENDPOINT } from './endpoints'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      searchQuery: '',
+      arrayOfGifs : [],
+      loading: false
+    }
+  }
+
+ fetchGifs = query => {
+    fetch(SEARCH_ENDPOINT + '&q=' + query)
+    .then(response => response.json())
+    .then(json=>{
+      this.setState({
+        searchQuery: '',
+        arrayOfGifs: json.data,
+      })
+    })
+
+  }
+
+  fetchRandomGifs = () => {
+    fetch(RANDOM_ENDPOINT)
+    .then(response => response.json())
+    .then(json=>{
+      this.setState({
+        searchQuery: '',
+        arrayOfGifs: [json.data],
+      })
+    })
+  }
+
+  fetchTrendingGifs = () => {
+    fetch(TRENDING_ENDPOINT)
+    .then(response => response.json())
+    .then(json=>{
+      this.setState({
+        searchQuery: '',
+        arrayOfGifs: json.data,
+      })
+    })
+  }
+
+  updateValue = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  handleSubmit = event => {
+    event.preventDefault()
+    this.fetchGifs(this.state.searchQuery)
+  }
+
+  render(){
+    return (
+      <Fragment>
+        <SearchBar
+          handleSubmit={this.handleSubmit}
+          updateValue={this.updateValue}
+          searchQuery={this.state.searchQuery}
+          fetchRandomGifs={this.fetchRandomGifs}
+          fetchTrendingGifs={this.fetchTrendingGifs}/>
+        <GifContainer
+          arrayOfGifs={this.state.arrayOfGifs}/>
+      </Fragment>
+    );
+  }
+
 }
 
 export default App;
