@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+//React router
 import {Link} from 'react-router-dom'
 
 const SearchBar = (props) =>{
@@ -19,7 +20,7 @@ const SearchBar = (props) =>{
   return(
     <Fragment>
       <Box textAlign="center" m={1} fontSize="h3.fontSize">
-        Welcome!
+        Discover gifs!
       </Box>
       <Box p={4} textAlign="center" m={1} fontSize="h3.fontSize">
         <form onSubmit={props.handleSubmit} noValidate autoComplete="off">
