@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 //Components
 import SearchBar from './components/SearchBar'
 import GifContainer from './components/GifContainer'
-import Info from './components/Info'
 //Endpoints
 import { SEARCH_ENDPOINT, TRENDING_ENDPOINT, RANDOM_ENDPOINT } from './endpoints'
 //React router
@@ -13,79 +12,8 @@ class App extends Component{
     super(props)
     this.state = {
       searchQuery: '',
-      arrayOfGifs : [],
-      query: '',
-      loading: false,
-      error: ''
+      queryParams: '',
     }
-  }
-
-  setLoadingTrue = () => {
-    this.setState({
-      loading: true
-    })
-  }
-
- fetchGifs = query => {
-    this.setLoadingTrue()
-    fetch(SEARCH_ENDPOINT + '&q=' + query)
-    .then(response => response.json())
-    .then(json=>{
-      this.setState({
-        searchQuery: '',
-        arrayOfGifs: json.data,
-        query,
-        loading: false,
-        error: ''
-      })
-    })
-    .catch((error)=>{
-      this.setState({
-        error,
-      })
-    })
-    this.props.history.push('/search/' + query);
-  }
-
-
-  fetchRandomGifs = () => {
-    this.setLoadingTrue()
-    fetch(RANDOM_ENDPOINT)
-    .then(response => response.json())
-    .then(json=>{
-      this.setState({
-        searchQuery: '',
-        arrayOfGifs: [json.data],
-        query: 'random',
-        loading: false,
-        error: ''
-      })
-    })
-    .catch((error)=>{
-      this.setState({
-        error,
-      })
-    })
-  }
-
-  fetchTrendingGifs = () => {
-    this.setLoadingTrue()
-    fetch(TRENDING_ENDPOINT)
-    .then(response => response.json())
-    .then(json=>{
-      this.setState({
-        searchQuery: '',
-        arrayOfGifs: json.data,
-        query: 'trending',
-        loading: false,
-        error: ''
-      })
-    })
-    .catch((error)=>{
-      this.setState({
-        error,
-      })
-    })
   }
 
   updateValue = event => {
@@ -96,7 +24,11 @@ class App extends Component{
 
   handleSubmit = event => {
     event.preventDefault()
-    this.fetchGifs(this.state.searchQuery)
+    this.props.history.push('search/' + this.state.searchQuery);
+    this.setState({
+      searchQuery: '',
+      queryParams: '&q=' + this.state.searchQuery
+    })
   }
 
   render(){
@@ -105,21 +37,19 @@ class App extends Component{
         <SearchBar
           handleSubmit={this.handleSubmit}
           updateValue={this.updateValue}
-          searchQuery={this.state.searchQuery}
-          fetchRandomGifs={this.fetchRandomGifs}
-          fetchTrendingGifs={this.fetchTrendingGifs}/>
-        <Route path='/'>
-            <Info query={this.state.query}/>
-            <GifContainer
-              arrayOfGifs={this.state.arrayOfGifs}
-              loading={this.state.loading}
-              query={this.state.query}
-              error={this.state.error}/>
+          searchQuery={this.state.searchQuery}/>
+        <Route path='/random'>
+            <GifContainer urlToFetch = {RANDOM_ENDPOINT} />
+        </Route>
+        <Route path='/trending'>
+            <GifContainer urlToFetch = {TRENDING_ENDPOINT} />
+        </Route>
+        <Route path='/search/:query'>
+            <GifContainer urlToFetch = {SEARCH_ENDPOINT + this.state.queryParams}/>
         </Route>
       </Fragment>
     );
   }
-
 }
 
 export default withRouter(App);
