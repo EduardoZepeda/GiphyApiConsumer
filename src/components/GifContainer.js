@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+//React router
+import { withRouter } from 'react-router-dom'
 //components
 import Gif from './Gif'
 //Material-ui
@@ -21,9 +23,14 @@ class GifContainer extends Component{
     })
   }
 
+  getQuery(){
+    return this.props.match.params.query ? '&q=' + this.props.match.params.query: ''
+  }
+
   componentDidMount(){
+    var query = this.getQuery()
     this.setLoadingTrue()
-    fetch(this.props.urlToFetch)
+    fetch(this.props.urlToFetch + query)
     .then(response => response.json())
     .then(json=>{
       if(Array.isArray(json.data)){
@@ -87,4 +94,4 @@ class GifContainer extends Component{
   }
 }
 
-export default GifContainer
+export default withRouter(GifContainer)

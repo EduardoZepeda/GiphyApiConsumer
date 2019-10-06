@@ -12,7 +12,6 @@ class App extends Component{
     super(props)
     this.state = {
       searchQuery: '',
-      queryParams: '',
     }
   }
 
@@ -24,10 +23,9 @@ class App extends Component{
 
   handleSubmit = event => {
     event.preventDefault()
-    this.props.history.push('search/' + this.state.searchQuery);
+    this.props.history.push('/search/' + this.state.searchQuery);
     this.setState({
       searchQuery: '',
-      queryParams: '&q=' + this.state.searchQuery
     })
   }
 
@@ -45,7 +43,7 @@ class App extends Component{
             <GifContainer urlToFetch = {TRENDING_ENDPOINT} />
         </Route>
         <Route path='/search/:query'>
-            <GifContainer urlToFetch = {SEARCH_ENDPOINT + this.state.queryParams}/>
+            <GifContainer urlToFetch = {SEARCH_ENDPOINT}/>
         </Route>
       </Fragment>
     );
