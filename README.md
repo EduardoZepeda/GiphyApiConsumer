@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-You need to create a file named `src/endpoints/index.js` and place your endpoints and credentials. An example valid for api v1 is:
+You need to create a file named `src/endpoints/index.js` and place there your endpoints and credentials. An example valid for api v1 is:
 
 ```bash
 export const API_KEY = "YOUR_SECRET_API_KEY"
