@@ -1,5 +1,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+You need to create a file named `src/endpoints/index.js` and place your endpoints and credentials. An example valid for api v1 is:
+
+```bash
+export const API_KEY = "YOUR_SECRET_API_KEY"
+export const TRENDING_ENDPOINT = `https://api.giphy.com/v1/gifs/trending?api_key=${API_KEY}`
+export const SEARCH_ENDPOINT = `https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}`
+export const RANDOM_ENDPOINT = `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}`
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
