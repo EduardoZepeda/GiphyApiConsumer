@@ -13,6 +13,7 @@ code {
 }
 
 .gif, .spinner {
-  height: 250px;
+  justify-content: center;
+  align-items: center;
   margin: 5px;
 }

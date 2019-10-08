@@ -12,6 +12,9 @@ class App extends Component{
     super(props)
     this.state = {
       searchQuery: '',
+      arrayOfGifs: [],
+      loading: false,
+      error: ''
     }
   }
 
@@ -21,11 +24,55 @@ class App extends Component{
     })
   }
 
+  handleRandom = () =>{
+    this.fetchGifs(RANDOM_ENDPOINT)
+  }
+
+  handleTrending = () =>{
+    this.fetchGifs(TRENDING_ENDPOINT)
+  }
+
+  handleSearch = () => {
+    this.fetchGifs(SEARCH_ENDPOINT + '&q=' + this.state.searchQuery)
+  }
+
   handleSubmit = event => {
     event.preventDefault()
     this.props.history.push('/search/' + this.state.searchQuery);
+    this.handleSearch()
+  }
+
+  setLoadingTrue(){
     this.setState({
-      searchQuery: '',
+      loading: true
+    })
+  }
+
+  fetchGifs(urlToFetch){
+    this.setLoadingTrue()
+    fetch(urlToFetch)
+    .then(response => response.json())
+    .then(json=>{
+      if(Array.isArray(json.data)){
+        this.setState({
+          arrayOfGifs: json.data,
+          loading: false,
+          error: '',
+          searchQuery: ''
+        })
+      }else{
+        this.setState({
+          arrayOfGifs: [json.data],
+          loading: false,
+          error: '',
+          searchQuery: ''
+        })
+      }
+    })
+    .catch((error)=>{
+      this.setState({
+        error,
+      })
     })
   }
 
@@ -35,15 +82,17 @@ class App extends Component{
         <SearchBar
           handleSubmit={this.handleSubmit}
           updateValue={this.updateValue}
-          searchQuery={this.state.searchQuery}/>
+          searchQuery={this.state.searchQuery}
+          handleRandom={this.handleRandom}
+          handleTrending={this.handleTrending}/>
         <Route path='/random'>
-            <GifContainer urlToFetch = {RANDOM_ENDPOINT} />
+            <GifContainer arrayOfGifs={this.state.arrayOfGifs}/>
         </Route>
         <Route path='/trending'>
-            <GifContainer urlToFetch = {TRENDING_ENDPOINT} />
+            <GifContainer arrayOfGifs={this.state.arrayOfGifs}/>
         </Route>
         <Route path='/search/:query'>
-            <GifContainer urlToFetch = {SEARCH_ENDPOINT}/>
+            <GifContainer arrayOfGifs={this.state.arrayOfGifs}/>
         </Route>
       </Fragment>
     );

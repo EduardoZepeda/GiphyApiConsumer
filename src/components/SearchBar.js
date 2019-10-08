@@ -40,7 +40,8 @@ const SearchBar = (props) =>{
           <Button
             variant="contained"
             color="primary"
-            className={classes.button}>
+            className={classes.button}
+            onClick={props.handleRandom}>
             Try a random gif
           </Button>
         </Link>
@@ -48,7 +49,8 @@ const SearchBar = (props) =>{
           <Button
             variant="contained"
             color="primary"
-            className={classes.button} >
+            className={classes.button}
+            onClick={props.handleTrending} >
             Show trending gifs
           </Button>
         </Link>

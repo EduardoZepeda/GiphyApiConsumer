@@ -27,7 +27,7 @@ class Gif extends Component {
               onLoad={this.handleLoad}
               alt={this.props.alt}/>
           </div>
-          <div className='spinner' style={{display: !this.state.loading ? 'none' : 'block' }}>
+          <div className='spinner' style={{display: !this.state.loading ? 'none' : 'flex', width: parseInt(this.props.width), height: parseInt(this.props.height), backgroundColor: "#dedede" }}>
               <CircularProgress/>
           </div>
         </Fragment>
